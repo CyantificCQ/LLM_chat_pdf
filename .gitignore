@@ -1,6 +1,7 @@
 app/app.py
 app/passw.ipynb
 app/htmlTemplates.py
+app/pdf_chatbot.py
 app/__pycache__
 app/__init__.py
 .mypy_cache
