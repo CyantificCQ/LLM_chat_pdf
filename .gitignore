@@ -3,8 +3,9 @@ app/passw.ipynb
 app/htmlTemplates.py
 pdf_chatbot.py
 app/__pycache__
-app/__init__.py
 .mypy_cache
 .history
 __pycache__
+app/.env
+app/__init__.py
 
