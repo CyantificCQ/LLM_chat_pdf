@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from typing import Annotated
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, FastAPI, HTTPException, status, APIRouter
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
@@ -9,18 +9,16 @@ from dotenv import load_dotenv
 import os
 # to get a string like this run:
 # openssl rand -hex 32
-load_dotenv()
-
+load_dotenv(dotenv_path="Secret\llm_chat.env")
 
 secret_key = os.getenv("SECRET_KEY", default=None)
 algorithm = os.getenv("ALGORITHM", default=None)
-expire = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", default=None)
+
+
 
 fake_users_db = {
     "dstadler": {
         "username": "dstadler",
-        "full_name": "Dora Stadler",
-        "email": "dstadler@example.com",
         "hashed_password": "$2b$12$AwcLg7B0u2OqbY7s7x0wUeObE.XyVInb8bpcv4drUNQXO8W.CJKBy",
         "disabled": False,
     }
@@ -37,20 +35,15 @@ class TokenData(BaseModel):
 
 class User(BaseModel):
     username: str
-    email: str 
-    full_name: str 
-    disabled: bool 
-
+    password: str
+    disabled: bool
 
 class UserInDB(User):
     hashed_password: str
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-app = FastAPI()
 
 
 def verify_password(plain_password, hashed_password):
