@@ -26,11 +26,17 @@ class Chatbot:
 
     def get_path(self):
         directory = "pdf_files"
+        for files in os.listdir(directory):
+            if "'" in files:
+                old_name = os.path.join(directory + "/" + files)
+                new_name = files.replace("'", "")
+                os.rename(old_name, os.path.join(directory + "/" + new_name))
         filetype = "*.pdf"
         path = glob.glob(os.path.join(directory + "/" + filetype))
         files = [f for f in os.listdir(directory) if f.endswith(filetype[1:])]
         return path, files
     
+
 
     def read_pdfs(self):
         path,_ = self.get_path()
